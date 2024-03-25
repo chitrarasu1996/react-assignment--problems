@@ -7,8 +7,17 @@ const Game = () => {
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(60); // 1 minute
   const [gameOver, setGameOver] = useState(false);
+  const [topScore,setTopScore]=useState(0)
   const box = [...Array(9)];
   const boxCount = 9;
+
+useEffect(()=>{
+const localStorageTopScore=localStorage.getItem("top-score");
+if(!localStorageTopScore){
+  const initialTopScore=localStorage.setItem("top-score",topScore)
+}
+
+},[])
   useEffect(() => {
     const timerId = setTimeout(() => {
       // Generate a random index for the keyword
@@ -33,7 +42,16 @@ const Game = () => {
 
   useEffect(() => {
     if (timeLeft === 0) {
+      const oldTopScore=localStorage.getItem("top-score");
+     
+if(score>oldTopScore){
+  localStorage.setItem("top-score",score)
+  setTopScore(score)
+}else{
+setTopScore(oldTopScore)
+}
       setGameOver(true);
+
     }
   }, [timeLeft]);
 
@@ -42,6 +60,7 @@ const Game = () => {
       <div className="game-over">
         <h2>Game Over!</h2>
         <p>Your final score is: {score}</p>
+        <p>Top Score : {topScore}</p>
       </div>
     );
   }

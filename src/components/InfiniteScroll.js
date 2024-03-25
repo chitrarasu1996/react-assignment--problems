@@ -53,17 +53,18 @@ const [data,setData]=useState([
   };
   
   
-  // Function to load initial data
+
 
   // Event listener for scroll
+  const handleScroll = () => {
+    const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
+    if (scrollTop + clientHeight >= scrollHeight - 20) { // Load more when scrolled near bottom
+      loadMoreData();
+    }
+  };
+
   useEffect(() => {
-    const handleScroll = () => {
-      const { scrollTop, scrollHeight, clientHeight } = document.documentElement;
-      if (scrollTop + clientHeight >= scrollHeight - 20) { // Load more when scrolled near bottom
-        loadMoreData();
-      }
-    };
-  
+   
     // Attach scroll event listener when component mounts
     window.addEventListener('scroll', handleScroll);
   
